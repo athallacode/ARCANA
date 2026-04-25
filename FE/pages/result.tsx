@@ -7,7 +7,7 @@ export default function Result() {
 
   const handleStartLatihan = () => {
     // navigate to learning or exercises page
-    alert("Menuju halaman latihan...");
+    router.push('/latihan');
   };
 
   return (
