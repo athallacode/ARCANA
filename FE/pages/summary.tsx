@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import styles from '../styles/Summary.module.css';
 
 export default function Summary() {
@@ -8,25 +9,21 @@ export default function Summary() {
   const [totalCount, setTotalCount] = useState(5);
 
   useEffect(() => {
-    
     const stored = sessionStorage.getItem('dyslexia_screening_results');
     if (stored) {
       try {
         const pastResults = JSON.parse(stored);
         setTotalCount(pastResults.length);
         
-        
+        // Menghitung jumlah kata yang risiko-nya rendah (skor <= 40)
         const correct = pastResults.filter((r: any) => r.result.risk_score <= 40).length;
         setCorrectCount(correct);
         
-        
+        // Logika Rekomendasi Level
         let recommendedLevel = 5; 
-        let firstFailIndex = -1;
-        
         for (let i = 0; i < pastResults.length; i++) {
           if (pastResults[i].result.risk_score > 40) {
             recommendedLevel = i + 1;
-            firstFailIndex = i;
             break;
           }
         }
@@ -39,10 +36,10 @@ export default function Summary() {
 
         if (recommendedLevel === 1) {
           label = "Tinggi";
-          msg = "Kami merekomendasikan mulai dari Level 1 untuk memperkuat fondasi pengenalan huruf paling dasar.";
+          msg = "Kami merekomendasikan mulai dari Level 1 untuk memperkuat fondasi.";
         } else if (recommendedLevel === 2) {
           label = "Sedang";
-          msg = "Terdapat indikasi di beberapa huruf. Mari asah kemampuan di Level 2.";
+          msg = "Mari asah kemampuan di Level 2 untuk pengenalan suku kata.";
         } else if (recommendedLevel === 3) {
           label = "Sedang";
           msg = "Kerja bagus! Mari kita perkuat pemahaman di Level 3.";
@@ -62,31 +59,37 @@ export default function Summary() {
            feedback: msg,
            detected_errors: allErrors
         };
+
+        // Simpan hasil akhir yang sudah dikonsolidasikan
         sessionStorage.setItem('dyslexia_result', JSON.stringify(consolidated));
 
       } catch (e) {
-        console.error(e);
+        console.error("Summary Processing Error:", e);
       }
     }
   }, []);
 
-  const handleStart = () => {
+  const handleNext = () => {
     router.push('/result');
   };
 
   return (
     <div className={styles.container}>
+      <Head>
+        <title>Selesai Screening - ARCANA</title>
+      </Head>
+
       <h1 className={styles.headline}>Kamu benar {correctCount} dari {totalCount} kata</h1>
       
       <div className={styles.mascotContainer}>
         <img src="/assets/duck.svg" alt="Duck Mascot" className={styles.duck} />
       </div>
       
-      <h2 className={styles.subheadline}>Kita mulai latihan yang cocok untukmu ya!</h2>
+      <h2 className={styles.subheadline}>Kita lihat hasil latihan yang cocok untukmu ya!</h2>
       
       <div className={styles.footer}>
-        <button className={styles.button} onClick={handleStart}>
-          Mulai
+        <button className={styles.button} onClick={handleNext}>
+          Lihat Hasil
         </button>
       </div>
     </div>
