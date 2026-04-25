@@ -1,0 +1,234 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #FFFDFE;
+  position: relative;
+  overflow: hidden;
+}
+
+.topSection {
+  background: #7D57C1;
+  padding: 60px 24px 70px 24px;
+  position: relative;
+  z-index: 10;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+  overflow: hidden;
+}
+
+.topSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.avatar {
+  width: 65px;
+  height: 65px;
+  background-color: #FFD700;
+  border-radius: 65px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border: 3px solid #ffffff;
+  position: relative;
+  z-index: 2;
+}
+
+.avatarImg {
+  width: 50px;
+  height: auto;
+  margin-top: 10px;
+}
+
+.greetingInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.greetingTitle {
+  font-size: 24px;
+  color: #ffffff;
+  font-weight: bold;
+  margin: 0;
+}
+
+.levelBadge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.starIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.levelText {
+  font-size: 16px;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.progressCard {
+  background: #FFFDFE;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: -60px; /* Overlaps bottom section */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.progressTitle {
+  font-size: 19px;
+  color: #333333;
+  font-weight: bold;
+  margin: 0;
+}
+
+.progressActionRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: -4px;
+}
+
+.progressTrack {
+  width: 100%;
+  height: 12px;
+  background: #eef0f3;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.progressFill {
+  height: 100%;
+  background: #7D57C1;
+  border-radius: 10px;
+}
+
+.progressSubtitle {
+  font-size: 15px;
+  color: #7D57C1;
+  margin: 0;
+}
+
+.progressSubtitle strong {
+  font-weight: 800;
+}
+
+.lanjutButton {
+  background: #7D57C1;
+  border: 1px solid #5a3d91;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 12px;
+  padding: 8px 24px;
+  box-shadow: 0 4px 0 #5a3d91;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+  text-align: center;
+}
+
+.lanjutButton:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #5a3d91;
+}
+
+.bottomSection {
+  flex: 1;
+  background: #FFFDFE;
+  padding: 0 24px 60px 24px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 5;
+}
+
+.spacer {
+  height: 80px; /* Push content down for floating card */
+}
+
+.tipCard {
+  background: #7D57C1;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.tipMascot {
+  width: 56px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.tipText {
+  color: #ffffff;
+  font-size: 15px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.tipText strong {
+  font-size: 19px;
+  color: #FFD700;
+  font-weight: 800;
+}
+
+.exerciseListContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionTitle {
+  font-size: 19px;
+  color: #333333;
+  font-weight: 800;
+  margin: 0;
+  margin-bottom: 4px;
+}
+
+.exerciseCard {
+  background: #FFFDFE;
+  border: 2px solid #e2e4e9;
+  border-radius: 16px;
+  padding: 20px 16px;
+  transition: border-color 0.2s;
+  cursor: pointer;
+}
+
+.exerciseCard:active {
+  border-color: #7D57C1;
+}
+
+.exerciseText {
+  font-size: 17px;
+  color: #333333;
+  font-weight: 800;
+}
