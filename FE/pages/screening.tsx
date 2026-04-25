@@ -32,17 +32,17 @@ export default function Screening() {
     if (isPlaying) return;
     setIsPlaying(true);
     
-    // Play dynamic audio per letter
+    
     const audio = new Audio(`/assets/instruksi_${currentLetter}.mp3`);
     
     audio.play().then(() => {
       audio.onended = () => {
         setIsPlaying(false);
-        setAudioFinished(true); // Show Saya Siap
+        setAudioFinished(true); 
       };
     }).catch(err => {
       console.error("Gagal memutar audio:", err);
-      // fallback
+      
       setIsPlaying(false);
       setAudioFinished(true);
     });
@@ -74,23 +74,23 @@ export default function Screening() {
 
         if (response.ok) {
           const data = await response.json();
-          // Store result in session storage cumulatively
+          
           const pastResults = JSON.parse(sessionStorage.getItem('dyslexia_screening_results') || '[]');
           pastResults.push({ letter: currentLetter.toUpperCase(), result: data });
           sessionStorage.setItem('dyslexia_screening_results', JSON.stringify(pastResults));
           
           if (currentIndex < letters.length - 1) {
-            // Lanjut Huruf Berikutnya
+            
             setCurrentIndex(currentIndex + 1);
             setMode('listening');
             setAudioFinished(false);
             setIsCapturing(false);
             setIsPlaying(false);
-            // Matikan Kamera
+            
             const stream = videoRef.current.srcObject as MediaStream;
             if (stream) stream.getTracks().forEach(track => track.stop());
           } else {
-            // Semua beres, lempar ke summary
+            
             const stream = videoRef.current.srcObject as MediaStream;
             if (stream) stream.getTracks().forEach(track => track.stop());
             router.push('/summary');
