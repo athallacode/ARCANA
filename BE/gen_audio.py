@@ -1,12 +1,24 @@
 import os
 from gtts import gTTS
 
+# Direktori asset frontend
 output_dir = r"d:\4. Thoriq_KULIAH\1.Lomba Thoriq\SEMESTER 4\HackFest\ARCANA\ARCANA\FE\public\assets"
 os.makedirs(output_dir, exist_ok=True)
 
-huruf = ['a', 'i', 'u', 'e', 'o']
-for h in huruf:
-    text = f"Sekarang, coba tulis huruf {h.upper()} besar di atas selembar kertas ya."
+# List 5 Level ARCANA
+kata_target = ['A', 'BA', 'BAN', 'NYALA', 'MENEMANI']
+
+print("--- Memulai Generasi Audio Screening ---")
+
+for kata in kata_target:
+    # Suara murni target kata agar anak fokus pada bunyinya
+    text = f"{kata}"
     tts = gTTS(text=text, lang='id', slow=False)
-    tts.save(os.path.join(output_dir, f"instruksi_{h}.mp3"))
-    print(f"Generated instruksi_{h}.mp3")
+    
+    file_name = f"instruksi_{kata.lower()}.mp3"
+    file_path = os.path.join(output_dir, file_name)
+    
+    tts.save(file_path)
+    print(f"✅ Berhasil: {file_name}")
+
+print("\n--- Audio Sinkronisasi Selesai ---")
