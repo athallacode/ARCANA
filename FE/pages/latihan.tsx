@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import styles from '../styles/Latihan.module.css';
 
-// glowing star componenet svg
+// glowing star componenet svg btw
 const GlowingStar = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g clipPath="url(#clip0_13_24853)">
@@ -20,12 +20,16 @@ const GlowingStar = () => (
 
 export default function Latihan() {
   const router = useRouter();
-  const [showQuiz, setShowQuiz] = useState(false);
+  const [view, setView] = useState<'landing' | 'learning' | 'quiz'>('landing');
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   const handleLanjut = () => {
-    setShowQuiz(true);
+    setView('learning');
+  };
+
+  const handleStartQuiz = () => {
+    setView('quiz');
   };
 
   const handleOptionClick = (option: string) => {
@@ -42,7 +46,59 @@ export default function Latihan() {
     setIsCorrect(null);
   };
 
-  if (showQuiz) {
+  if (view === 'learning') {
+    return (
+      <div className={styles.container}>
+        <Head>
+          <title>Belajar - Arcana</title>
+        </Head>
+
+        <div className={styles.quizContainer}>
+          <div className={styles.quizHeader}>
+            <div className={styles.levelTextQuiz}>
+              <GlowingStar />
+              Level 1
+            </div>
+            <h1 className={styles.quizTitle}>Huruf & Bunyi Dasar</h1>
+            <div className={styles.tahapText}>Tahap 1</div>
+            <div className={styles.quizProgressTrack}>
+              <div className={styles.quizProgressFill} style={{ width: '30%' }}></div>
+            </div>
+          </div>
+
+          <div className={styles.learningLabel}>Huruf Vokal</div>
+
+          <div className={styles.learningCard}>
+            <div className={styles.arrowCircle}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 18L15 12L9 6" stroke="#333333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+
+            <h2 className={styles.bigLetter}>Aa</h2>
+            <p className={styles.subText}>seperti bunyi “ayam”</p>
+
+            <button className={styles.speakerBtn}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M15.54 8.46C16.4774 9.39764 17.004 10.6692 17.004 12C17.004 13.3308 16.4774 14.6024 15.54 15.54" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M19.07 4.93C20.9447 6.80528 21.9979 9.34836 21.9979 12C21.9979 14.6516 20.9447 17.1947 19.07 19.07" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Dengarkan bunyinya
+            </button>
+          </div>
+
+          <div className={styles.learningFooter}>
+            <button className={styles.nextButtonPurple} onClick={handleStartQuiz}>
+              Berikutnya
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (view === 'quiz') {
     return (
       <div className={styles.container}>
         <Head>
@@ -58,7 +114,7 @@ export default function Latihan() {
             <h1 className={styles.quizTitle}>Huruf & Bunyi Dasar</h1>
             <div className={styles.tahapText}>Tahap 1</div>
             <div className={styles.quizProgressTrack}>
-              <div className={styles.quizProgressFill} style={{ width: '30%' }}></div>
+              <div className={styles.quizProgressFill} style={{ width: '60%' }}></div>
             </div>
           </div>
 
