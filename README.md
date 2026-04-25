@@ -1,45 +1,50 @@
-# LEKSA: Platform Deteksi & Pembelajaran Adaptif Disleksia Berbasis AI
+# LEKSA: Platform Deteksi & Pembelajaran Adaptif Disleksia Berbasis SOTA AI
+
 ## 1. Masalah: "The Identification Vacuum" di Indonesia
-Di Indonesia, diperkirakan terdapat lebih dari **5 juta anak dengan disleksia**, namun **90% di antaranya tidak terdiagnosis** secara resmi hingga mereka lulus Sekolah Dasar. Hal ini menciptakan tiga beban utama:
-* **Cognitive Tax:** Anak menghabiskan 80% energi hanya untuk mengeja, menyisakan sedikit kapasitas untuk memahami konteks.
-* **Psychological Toll:** Rendahnya rasa percaya diri dan kecemasan akademik akibat standar baca nasional yang tidak mengakomodasi hambatan neurologis.
-* **Akses Terbatas:** Biaya diagnosis formal ke psikolog yang mahal dan kurangnya tenaga ahli di daerah pelosok.
+Di Indonesia, diperkirakan terdapat lebih dari **5 juta anak dengan disleksia**, namun **90% di antaranya tidak terdiagnosis** secara resmi. Hambatan utama meliputi biaya diagnosis psikolog yang mahal dan minimnya tenaga ahli di daerah. **LEKSA** hadir untuk mendemokrasi akses deteksi dini melalui infrastruktur teknologi yang inklusif.
 
-## 2. Solusi: Infrastruktur Deteksi & Intervensi Dini
-LEKSA hadir sebagai solusi *web-based* yang anonim dan privat untuk menjembatani jurang diagnosis tersebut melalui:
-* **Early Detection:** Screening non-invasif berbasis AI yang bisa diakses siapa saja secara instan tanpa perlu registrasi rumit.
-* **Privacy-First AI:** Menggunakan **Ollama (Local LLM)** yang berjalan di mesin pengguna, memastikan data percakapan dan tulisan anak tidak pernah keluar ke server publik.
-* **Evidence-Based:** Kurikulum latihan yang mengikuti prinsip **Orton-Gillingham**, metode yang terbukti secara klinis efektif untuk penyandang disleksia.
+## 2. Solusi: Vision-Transformer & Intervensi Adaptif
+**LEKSA** adalah solusi *web-based* premium yang menggabungkan psikologi pendidikan dengan teknologi AI termutakhir:
+*   **Physical-to-Digital Pipeline:** Anak tetap menulis di media kertas untuk menjaga perkembangan motorik halus, sementara AI menangkapnya melalui visi komputer (kamera).
+*   **Handwriting Transformer (SOTA):** Menggunakan model **TrOCR** (Transformer-based OCR) yang dilatih khusus untuk mengenali tulisan tangan yang tidak beraturan.
+*   **Privacy-First Architecture:** Semua proses inferensi AI dan database berjalan di jaringan lokal (Edge Computing), menjamin data sensitif anak tidak pernah dikirim ke cloud.
 
-## 3. Yang Sedang Dikembangkan (Current Status)
-Saat ini proyek berada dalam fase **Backend Core Development**. Fokus utama kami adalah:
-* **Monorepo Architecture:** Struktur folder yang terisolasi antara `FE` (Frontend), `BE` (Backend), dan `ML_Pipeline`.
-* **FastAPI Backend:** Membangun *engine* yang cepat dan asinkron untuk menangani beban kerja AI secara lokal.
-* **Seeding Learning Content:** Penyiapan bank soal kurikulum level 1-5 ke dalam database PostgreSQL.
-* **Local LLM Integration:** Menghubungkan sistem secara asinkron dengan Ollama (Llama3/Qwen) di jaringan lokal.
-
-## 4. Tech Stack
-Kami menggunakan kombinasi teknologi modern yang menjamin performa tinggi dan keamanan data:
+## 3. Tech Stack & Engineering Excellence
+Kami menggunakan arsitektur monorepo yang dioptimasi untuk performa laptop *high-end* (ROG Zephyrus):
 
 | Komponen | Teknologi | Peran |
 | :--- | :--- | :--- |
-| **Frontend** | **Next.js** | Antarmuka web responsif dengan performa tinggi. |
-| **Backend** | **FastAPI** | REST API asinkron untuk orkestrasi AI dan Data. |
-| **Local AI** | **Ollama** | Mesin LLM lokal untuk AI Tutor (Sahabat LEKSA). |
-| **ML Models** | **ONNX & PaddleOCR** | Klasifikasi pola tulisan tangan secara *lightweight*. |
-| **Database** | **PostgreSQL** | Penyimpanan sesi latihan dan bank soal kurikulum. |
-| **Language** | **Python 3.12+** | Logika inti AI dan Backend. |
+| **Frontend** | **Next.js 14** | UI/UX Premium dengan interaksi *real-time* dan animasi dinamis. |
+| **Backend** | **FastAPI** | REST API asinkron dengan *concurrency* tinggi untuk pengolahan gambar. |
+| **OCR Engine** | **TrOCR (Vision-Transformer)** | Model AI SOTA (Microsoft/trocr-base) untuk pengenalan tulisan tangan. |
+| **Fuzzy Engine** | **RapidFuzz** | Algoritma *string matching* untuk toleransi kesalahan tulis ringan. |
+| **Database** | **SQLite (Local DB)** | Penyimpanan sesi lokal dengan latensi rendah. |
+| **Styling** | **Vanilla CSS & Modules** | Desain kustom premium dengan pendekatan *Glassmorphism*. |
 
-## 5. Fitur-Fitur yang Dikembangkan
+## 4. Fitur Utama
 
-### A. Mode Screening Otomatis
-* **Handwriting Analysis:** Menggunakan kanvas digital untuk menangkap tulisan tangan anak. Gambar diproses oleh **PaddleOCR** untuk ekstraksi teks dan **ONNX** untuk mendeteksi pola *error* (seperti huruf terbalik atau omisi).
-* **AI Scoring:** Memberikan skor risiko (0-100) dan label (Rendah/Sedang/Tinggi) secara instan.
+### A. Progressive Screening (5-Level Curriculum)
+*   **Level 1 (Huruf Tunggal):** Deteksi awal pengenalan karakter visual (e.g. 'A').
+*   **Level 2 (Suku Kata):** Menguji penggabungan konsonan-vokal (e.g. 'BA').
+*   **Level 3 (Suku Kata Kompleks):** Deteksi inversi dan omisi (e.g. 'BAN').
+*   **Level 4-5 (Kata & Morfologi):** Analisis kelancaran penulisan kata utuh (e.g. 'NYALA', 'MENEMANI').
 
-### B. Sahabat LEKSA (AI Tutor Lokal)
-* **Empathetic Interaction:** Chatbot yang didukung Ollama dengan *system prompt* khusus untuk memberikan motivasi dan perbaikan ejaan secara lembut tanpa menghakimi.
-* **Local Inference:** Proses berpikir AI dilakukan sepenuhnya di perangkat (mesin ROG Zephyrus), menjamin privasi 100%.
+### B. Interactive Listen Card
+Antarmuka "Dengarkan-Lalu-Tulis" yang intuitif dengan *feedback* visual untuk membantu fokus anak (kartu berubah warna saat audio diputar).
 
-### C. Mode Belajar Adaptif (Learning Mode)
-* **Orton-Gillingham Curriculum:** Latihan berlevel (1-5) mulai dari pengenalan huruf konfusable (b/d, p/q) hingga morfologi kata.
-* **Dynamic Feedback:** Sistem memberikan *feedback* langsung berdasarkan benar/salahnya jawaban anak dan menyesuaikan level secara otomatis.
+### C. Comprehensive Result Summary
+*   **Risk Score Analysis:** Memberikan skor risiko 0-100 berdasarkan akurasi visi komputer.
+*   **Error Pattern Recognition:** Mendeteksi pola *reversal* (huruf terbalik seperti b/d, p/q) secara otomatis menggunakan AI.
+*   **Learning Roadmaps:** Merekomendasikan Level latihan **LEKSA** (1-5) yang harus diikuti anak berdasarkan hasil skrining.
+
+## 5. Cara Menjalankan (Local Development)
+
+### Backend:
+1. `cd BE`
+2. `pip install -r requirements.txt`
+3. `uvicorn app.main:app --reload --port 8000`
+
+### Frontend:
+1. `cd FE`
+2. `npm install`
+3. `npm run dev`
