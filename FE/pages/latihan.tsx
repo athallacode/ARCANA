@@ -573,7 +573,7 @@ export default function Latihan() {
             </div>
             <div className={screeningStyles.bottomContainer}>
               <button
-                className={`${screeningStyles.continueButton} ${writingMode !== 'camera' ? '' : ''}`}
+                className={screeningStyles.continueButton}
                 onClick={() => {
                   setWritingMode('camera');
                   startCamera();
@@ -655,24 +655,6 @@ export default function Latihan() {
                 <GlowingStar />
                 <span className={styles.levelText}>Level {recommendedLevel}</span>
               </div>
-              <button 
-                onClick={() => router.push('/result')}
-                style={{
-                  background: '#F0E9FF',
-                  color: '#7D57C1',
-                  border: 'none',
-                  borderRadius: '12px',
-                  padding: '6px 12px',
-                  fontSize: '12px',
-                  fontWeight: 'bold',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px'
-                }}
-              >
-                📊 Cek Hasil Pemeriksaan
-              </button>
             </div>
           </div>
         </div>
@@ -711,81 +693,6 @@ export default function Latihan() {
           <div className={styles.exerciseCard}>
             <span className={styles.exerciseText}>Inversi p/q sering tertukar</span>
           </div>
-        </div>
-
-        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '40px' }}>
-          <button
-            onClick={() => {
-              setRecommendedLevel(2);
-              sessionStorage.setItem('dyslexia_result', JSON.stringify({ recommended_level: 2 }));
-              window.location.reload();
-            }}
-            style={{
-              opacity: 0.3,
-              fontSize: '12px',
-              background: 'none',
-              border: '1px dashed #ccc',
-              padding: '5px 10px',
-              borderRadius: '5px',
-              cursor: 'pointer'
-            }}
-          >
-            Dev: Paksa Level 2
-          </button>
-          <button
-            onClick={() => {
-              setRecommendedLevel(3);
-              sessionStorage.setItem('dyslexia_result', JSON.stringify({ recommended_level: 3 }));
-              window.location.reload();
-            }}
-            style={{
-              opacity: 0.3,
-              fontSize: '12px',
-              background: 'none',
-              border: '1px dashed #ccc',
-              padding: '5px 10px',
-              borderRadius: '5px',
-              cursor: 'pointer'
-            }}
-          >
-            Dev: Paksa Level 3
-          </button>
-          <button
-            onClick={() => {
-              setRecommendedLevel(4);
-              sessionStorage.setItem('dyslexia_result', JSON.stringify({ recommended_level: 4 }));
-              window.location.reload();
-            }}
-            style={{
-              opacity: 0.3,
-              fontSize: '12px',
-              background: 'none',
-              border: '1px dashed #ccc',
-              padding: '5px 10px',
-              borderRadius: '5px',
-              cursor: 'pointer'
-            }}
-          >
-            Dev: Paksa Level 4
-          </button>
-          <button
-            onClick={() => {
-              setRecommendedLevel(5);
-              sessionStorage.setItem('dyslexia_result', JSON.stringify({ recommended_level: 5 }));
-              window.location.reload();
-            }}
-            style={{
-              opacity: 0.3,
-              fontSize: '12px',
-              background: 'none',
-              border: '1px dashed #ccc',
-              padding: '5px 10px',
-              borderRadius: '5px',
-              cursor: 'pointer'
-            }}
-          >
-            Dev: Paksa Level 5
-          </button>
         </div>
       </div>
     </div >
