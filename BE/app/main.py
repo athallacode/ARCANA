@@ -30,6 +30,13 @@ app.include_router(screening.router, prefix="/api/v1/screening", tags=["Screenin
 app.include_router(chat.router, prefix="/api/v1/chat", tags=["AI Tutor Chat"])
 app.include_router(learning.router, prefix="/api/v1/learning", tags=["Learning Mode"])
 
+@app.on_event("startup")
+async def startup_event():
+    from app.services.trocr_service import get_trocr_engine
+    print("[Startup] Menyiapkan Otak AI (TrOCR)...")
+    get_trocr_engine()
+    print("[Startup] Otak AI Siap!")
+
 @app.get("/")
 def read_root():
     return {"status": "ok", "message": "DyslexiAI API is running in Anonymous Mode!"}
