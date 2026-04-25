@@ -13,8 +13,8 @@ from app.core.database import get_db
 
 router = APIRouter()
 
-@router.post("/analyze", response_model=ScreeningResponse)
-def analyze_handwriting(payload: ScreeningRequest, db: Session = Depends(get_db)):
+@router.post("/upload", response_model=ScreeningResponse)
+async def analyze_handwriting(payload: ScreeningRequest, db: Session = Depends(get_db)):
     """
     Endpoint utama untuk menganalisis tulisan tangan anak.
     
@@ -29,21 +29,27 @@ def analyze_handwriting(payload: ScreeningRequest, db: Session = Depends(get_db)
         if not payload.image_base64 or len(payload.image_base64) < 50:
             raise HTTPException(status_code=400, detail="Gambar tidak valid atau kosong.")
 
-        # ========================================================
-        # TODO: INTEGRASI ML PIPELINE (MOCK LOGIC)
-        # Bagian ini mensimulasikan hasil dari OCR & ONNX
-        # ========================================================
-        print("Menerima gambar dari FE, memulai pemrosesan AI...")
+        print("Menerima gambar dari FE, menganalisis dengan AI (Gemini/Dynamic Hasher)...")
+        # Bersihkan awalan base64 (contoh: "data:image/jpeg;base64,")
+        import base64
+        import re
+        b64_data = re.sub('^data:image/.+;base64,', '', payload.image_base64)
+        image_bytes = base64.b64decode(b64_data)
+
+        # Proses melalui Gemini Core Service
+        from app.services.gemini_service import analyze_dyslexia_image
         
-        # Simulasi proses (Nanti diganti dengan panggilan fungsi asli)
-        mock_score = 65.5  # Contoh hasil kalkulasi ONNX
+        analysis_result = await analyze_dyslexia_image(image_bytes, target_letter=payload.target_letter)
         
+        dynamic_score = analysis_result["score"]
+        detected_errors = analysis_result["errors"]
+
         # Logika Penentuan Label (Berdasarkan arsitektur diagrammu)
-        if mock_score > 70:
+        if dynamic_score > 70:
             label = "Tinggi"
             level = 1
             msg = "Disarankan untuk menjadwalkan konsultasi dengan ahli. Kami merekomendasikan mulai dari Level 1 untuk memperkuat fondasi fonemik."
-        elif mock_score >= 40:
+        elif dynamic_score >= 40:
             label = "Sedang"
             level = 2
             msg = "Terdapat beberapa pola indikasi disleksia. Mari asah kemampuan di Level 2."
@@ -51,15 +57,17 @@ def analyze_handwriting(payload: ScreeningRequest, db: Session = Depends(get_db)
             label = "Rendah"
             level = 3
             msg = "Perkembangan sangat baik! Lanjutkan petualangan membaca di Level 3."
+            detected_errors = []
 
         # TODO: Jika child_id ada, update current_level dan risk_score ke database
 
         return ScreeningResponse(
             status="success",
-            risk_score=mock_score,
-            risk_label=label,
+            risk_score=dynamic_score,
+            risk_level=label,
             recommended_level=level,
-            feedback_message=msg
+            feedback=msg,
+            detected_errors=detected_errors
         )
 
     except Exception as e:

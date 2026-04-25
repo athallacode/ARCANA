@@ -3,6 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.database import engine, Base
 from app.api.v1 import screening, chat, learning
 
+# Load all models explicitly before creating tables
+from app.models import user, child_profile, exercise, screening_session
+
 # Inisialisasi Database
 Base.metadata.create_all(bind=engine)
 
