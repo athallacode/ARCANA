@@ -8,41 +8,57 @@ export default function Summary() {
   const [totalCount, setTotalCount] = useState(5);
 
   useEffect(() => {
-    // Membaca array screeningResults yang disimpan di session
+    
     const stored = sessionStorage.getItem('dyslexia_screening_results');
     if (stored) {
       try {
         const pastResults = JSON.parse(stored);
         setTotalCount(pastResults.length);
         
-        // Kita asumsikan risk_score <= 40 artinya huruf cukup bisa dikenali dengan baik
+        
         const correct = pastResults.filter((r: any) => r.result.risk_score <= 40).length;
         setCorrectCount(correct);
         
-        // Agar data ini juga bisa disalurkan ke result.tsx untuk kalkulasi Level Akhir
-        // kita akan menyimpan overall score (rata-rata) di 'dyslexia_result' 
-        // sehingga result.tsx tetap jalan seperti sebelumnya.
+        
+        let recommendedLevel = 5; 
+        let firstFailIndex = -1;
+        
+        for (let i = 0; i < pastResults.length; i++) {
+          if (pastResults[i].result.risk_score > 40) {
+            recommendedLevel = i + 1;
+            firstFailIndex = i;
+            break;
+          }
+        }
+
         const avgScore = pastResults.reduce((acc: number, val: any) => acc + val.result.risk_score, 0) / pastResults.length;
         const allErrors = pastResults.flatMap((r: any) => r.result.detected_errors);
         
         let label = "Rendah";
-        let level = 3;
-        let msg = "Perkembangan sangat baik! Lanjutkan petualangan membaca di Level 3.";
-        if (avgScore > 70) {
-            label = "Tinggi";
-            level = 1;
-            msg = "Disarankan untuk menjadwalkan konsultasi dengan ahli. Kami merekomendasikan mulai dari Level 1 untuk memperkuat fondasi fonemik.";
-        } else if (avgScore >= 40) {
-            label = "Sedang";
-            level = 2;
-            msg = "Terdapat beberapa pola indikasi disleksia. Mari asah kemampuan di Level 2.";
+        let msg = "";
+
+        if (recommendedLevel === 1) {
+          label = "Tinggi";
+          msg = "Kami merekomendasikan mulai dari Level 1 untuk memperkuat fondasi pengenalan huruf paling dasar.";
+        } else if (recommendedLevel === 2) {
+          label = "Sedang";
+          msg = "Terdapat indikasi di beberapa huruf. Mari asah kemampuan di Level 2.";
+        } else if (recommendedLevel === 3) {
+          label = "Sedang";
+          msg = "Kerja bagus! Mari kita perkuat pemahaman di Level 3.";
+        } else if (recommendedLevel === 4) {
+          label = "Rendah";
+          msg = "Hampir sempurna! Ayo coba tantangan di Level 4.";
+        } else {
+          label = "Rendah";
+          msg = "Luar biasa! Kamu siap untuk petualangan di Level 5.";
         }
 
         const consolidated = {
            status: "success",
            risk_score: avgScore,
            risk_level: label,
-           recommended_level: level,
+           recommended_level: recommendedLevel,
            feedback: msg,
            detected_errors: allErrors
         };
