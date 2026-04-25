@@ -553,31 +553,36 @@ export default function Latihan() {
             <img src="/assets/duck.svg" alt="Duck" className={screeningStyles.duck} />
             <h1 className={screeningStyles.title}>
               {writingMode === 'listening'
-                ? 'Dengarkan suara, lalu tulis di kertas!'
-                : 'Ambil foto tulisan mu'}
+                ? 'Dengarkan lalu tulis di kertas'
+                : 'Ambil foto tulisanmu'}
             </h1>
           </div>
         </div>
 
         {writingMode === 'listening' ? (
-          <div className={screeningStyles.centerAction}>
-            <button className={screeningStyles.button} onClick={() => playLetterSound(currentTarget)}>
-              <img src="/assets/ear.svg" alt="Listen" className={screeningStyles.icon} />
-              Dengar
-            </button>
-            <p className={screeningStyles.instruction}>Tekan tombol untuk mendengar suara!</p>
-
-            <button
-              className={screeningStyles.button}
-              style={{ backgroundColor: '#2ed573', borderColor: '#26af5f', boxShadow: '0 4px 0 0 #26af5f', marginTop: '20px' }}
-              onClick={() => {
-                setWritingMode('camera');
-                startCamera();
-              }}
-            >
-              ✅ Saya Siap
-            </button>
-          </div>
+          <>
+            <div className={screeningStyles.centerAction}>
+              <button
+                className={screeningStyles.listenCard}
+                onClick={() => playLetterSound(currentTarget)}
+              >
+                <img src="/assets/ear.svg" alt="Listen" className={screeningStyles.listenIcon} />
+                <span className={screeningStyles.listenText}>Dengarkan bunyinya</span>
+              </button>
+              <p className={screeningStyles.subTitle}>Tekan tombol untuk mendengar suara!</p>
+            </div>
+            <div className={screeningStyles.bottomContainer}>
+              <button
+                className={`${screeningStyles.continueButton} ${writingMode !== 'camera' ? '' : ''}`}
+                onClick={() => {
+                  setWritingMode('camera');
+                  startCamera();
+                }}
+              >
+                Lanjutkan
+              </button>
+            </div>
+          </>
         ) : (
           <div className={screeningStyles.centerAction} style={{ justifyContent: 'flex-start' }}>
             <div className={screeningStyles.cameraContainer}>
@@ -585,7 +590,7 @@ export default function Latihan() {
               {isCapturing && (
                 <div className={screeningStyles.loadingOverlay}>
                   <div className={screeningStyles.spinner}></div>
-                  <span>Sedang menganalisis tulisan mu...</span>
+                  <span>Sedang menganalisis tulisanmu...</span>
                 </div>
               )}
               <button
