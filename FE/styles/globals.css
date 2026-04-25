@@ -15,3 +15,11 @@ body {
 h1, h2, h3, h4, h5, h6, p, span, button {
   color: inherit;
 }
+
+/* Hide Next.js Dev Tools / Prerender Indicator */
+nextjs-portal, 
+#__next-prerender-indicator {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
