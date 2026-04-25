@@ -1,12 +1,12 @@
-# ARCANA: Platform Deteksi & Pembelajaran Adaptif Disleksia Berbasis SOTA AI
+# LEKSA: Platform Deteksi & Pembelajaran Adaptif Disleksia Berbasis SOTA AI
 
 ## 1. Masalah: "The Identification Vacuum" di Indonesia
-Di Indonesia, diperkirakan terdapat lebih dari **5 juta anak dengan disleksia**, namun **90% di antaranya tidak terdiagnosis** secara resmi. Hambatan utama meliputi biaya diagnosis psikolog yang mahal dan minimnya tenaga ahli di daerah. ARCANA hadir untuk mendemokrasi akses deteksi dini.
+Di Indonesia, diperkirakan terdapat lebih dari **5 juta anak dengan disleksia**, namun **90% di antaranya tidak terdiagnosis** secara resmi. Hambatan utama meliputi biaya diagnosis psikolog yang mahal dan minimnya tenaga ahli di daerah. **LEKSA** hadir untuk mendemokrasi akses deteksi dini melalui infrastruktur teknologi yang inklusif.
 
 ## 2. Solusi: Vision-Transformer & Intervensi Adaptif
-ARCANA adalah solusi *web-based* premium yang menggabungkan psikologi pendidikan dengan teknologi AI termutakhir:
-*   **Physical-to-Digital Pipeline:** Anak tetap menulis di media kertas untuk menjaga perkembangan motorik halus, sementara AI menangkapnya melalui visi komputer.
-*   **Handwriting Transformer (SOTA):** Menggunakan model **TrOCR** (Transformer-based OCR) yang dilatih khusus untuk mengenali tulisan tangan yang tidak beraturan/shaky.
+**LEKSA** adalah solusi *web-based* premium yang menggabungkan psikologi pendidikan dengan teknologi AI termutakhir:
+*   **Physical-to-Digital Pipeline:** Anak tetap menulis di media kertas untuk menjaga perkembangan motorik halus, sementara AI menangkapnya melalui visi komputer (kamera).
+*   **Handwriting Transformer (SOTA):** Menggunakan model **TrOCR** (Transformer-based OCR) yang dilatih khusus untuk mengenali tulisan tangan yang tidak beraturan.
 *   **Privacy-First Architecture:** Semua proses inferensi AI dan database berjalan di jaringan lokal (Edge Computing), menjamin data sensitif anak tidak pernah dikirim ke cloud.
 
 ## 3. Tech Stack & Engineering Excellence
@@ -18,7 +18,7 @@ Kami menggunakan arsitektur monorepo yang dioptimasi untuk performa laptop *high
 | **Backend** | **FastAPI** | REST API asinkron dengan *concurrency* tinggi untuk pengolahan gambar. |
 | **OCR Engine** | **TrOCR (Vision-Transformer)** | Model AI SOTA (Microsoft/trocr-base) untuk pengenalan tulisan tangan. |
 | **Fuzzy Engine** | **RapidFuzz** | Algoritma *string matching* untuk toleransi kesalahan tulis ringan. |
-| **Database** | **SQLite (Local DB)** | Penyimpanan sesi lokal dengan latensi nol (Zero Latency). |
+| **Database** | **SQLite (Local DB)** | Penyimpanan sesi lokal dengan latensi rendah. |
 | **Styling** | **Vanilla CSS & Modules** | Desain kustom premium dengan pendekatan *Glassmorphism*. |
 
 ## 4. Fitur Utama
@@ -27,25 +27,24 @@ Kami menggunakan arsitektur monorepo yang dioptimasi untuk performa laptop *high
 *   **Level 1 (Huruf Tunggal):** Deteksi awal pengenalan karakter visual (e.g. 'A').
 *   **Level 2 (Suku Kata):** Menguji penggabungan konsonan-vokal (e.g. 'BA').
 *   **Level 3 (Suku Kata Kompleks):** Deteksi inversi dan omisi (e.g. 'BAN').
-*   **Level 4-5 (Kata & Morfologi):** Analisis kelancaran penulisan kata utuh (e.g. 'MENEMANI').
+*   **Level 4-5 (Kata & Morfologi):** Analisis kelancaran penulisan kata utuh (e.g. 'NYALA', 'MENEMANI').
 
 ### B. Interactive Listen Card
-Antarmuka "Dengarkan-Lalu-Tulis" yang intuitif dengan *feedback* visual (kartu berubah warna dari Ungu ke Abu-abu saat audio diputar) untuk membantu fokus anak.
+Antarmuka "Dengarkan-Lalu-Tulis" yang intuitif dengan *feedback* visual untuk membantu fokus anak (kartu berubah warna saat audio diputar).
 
 ### C. Comprehensive Result Summary
 *   **Risk Score Analysis:** Memberikan skor risiko 0-100 berdasarkan akurasi visi komputer.
-*   **Error Pattern Recognition:** Mendeteksi pola *reversal* (huruf terbalik seperti b/d, p/q) secara otomatis.
-*   **Learning Roadmaps:** Merekomendasikan Level latihan mana yang harus diikuti anak berdasarkan hasil skrining.
+*   **Error Pattern Recognition:** Mendeteksi pola *reversal* (huruf terbalik seperti b/d, p/q) secara otomatis menggunakan AI.
+*   **Learning Roadmaps:** Merekomendasikan Level latihan **LEKSA** (1-5) yang harus diikuti anak berdasarkan hasil skrining.
 
 ## 5. Cara Menjalankan (Local Development)
 
 ### Backend:
-1. Pastikan Python 3.12+ terinstal.
-2. `cd BE`
-3. `pip install -r requirements.txt`
-4. `uvicorn app.main:app --reload --port 8000`
+1. `cd BE`
+2. `pip install -r requirements.txt`
+3. `uvicorn app.main:app --reload --port 8000`
 
 ### Frontend:
 1. `cd FE`
 2. `npm install`
-3. `npm run dev` (Akses di `http://localhost:3000`)
+3. `npm run dev`
