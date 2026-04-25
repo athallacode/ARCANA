@@ -20,7 +20,7 @@
 
 
 ## 1. Masalah: "The Identification Vacuum" di Indonesia
-Di Indonesia, diperkirakan terdapat lebih dari **5 juta anak dengan disleksia**, namun **90% di antaranya tidak terdiagnosis** secara resmi. Hambatan utama meliputi biaya diagnosis psikolog yang mahal dan minimnya tenaga ahli di daerah. **LEKSA** hadir untuk mendemokrasi akses deteksi dini melalui infrastruktur teknologi yang inklusif.
+Di Indonesia, diperkirakan terdapat lebih dari **5 juta anak dengan disleksia**, namun **80% di antaranya tidak terdiagnosis** secara resmi. Hambatan utama meliputi biaya diagnosis psikolog yang mahal dan minimnya tenaga ahli di daerah. **LEKSA** hadir untuk mendemokrasi akses deteksi dini melalui infrastruktur teknologi yang inklusif.
 
 ## 2. Solusi: Vision-Transformer & Intervensi Adaptif
 **LEKSA** adalah solusi *web-based* premium yang menggabungkan psikologi pendidikan dengan teknologi AI termutakhir:
