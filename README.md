@@ -37,6 +37,14 @@ Antarmuka "Dengarkan-Lalu-Tulis" yang intuitif dengan *feedback* visual untuk me
 *   **Error Pattern Recognition:** Mendeteksi pola *reversal* (huruf terbalik seperti b/d, p/q) secara otomatis menggunakan AI.
 *   **Learning Roadmaps:** Merekomendasikan Level latihan **LEKSA** (1-5) yang harus diikuti anak berdasarkan hasil skrining.
 
+### D. Sahabat LEKSA (AI Tutor Lokal)
+* **Empathetic Interaction:** Chatbot yang didukung Ollama dengan *system prompt* khusus untuk memberikan motivasi dan perbaikan ejaan secara lembut tanpa menghakimi.
+* **Local Inference:** Proses berpikir AI dilakukan sepenuhnya di perangkat (mesin ROG Zephyrus), menjamin privasi 100%.
+
+### E. Mode Belajar Adaptif (Learning Mode)
+* **Orton-Gillingham Curriculum:** Latihan berlevel (1-5) mulai dari pengenalan huruf konfusable (b/d, p/q) hingga morfologi kata.
+* **Dynamic Feedback:** Sistem memberikan *feedback* langsung berdasarkan benar/salahnya jawaban anak dan menyesuaikan level secara otomatis.
+
 ## 5. Cara Menjalankan (Local Development)
 
 ### Backend:
