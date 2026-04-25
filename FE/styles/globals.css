@@ -1,0 +1,18 @@
+@font-face {
+  font-family: 'Feather';
+  src: url('/assets/fonts/feather.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Feather', 'Comic Sans MS', sans-serif;
+  background: #ffffff;
+  color: #333333;
+}
+
+h1, h2, h3, h4, h5, h6, p, span, button {
+  color: inherit;
+}
