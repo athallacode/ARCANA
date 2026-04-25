@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import styles from '../styles/Latihan.module.css';
 
-// componenet svg for glowing star
+// glowing star componenet svg
 const GlowingStar = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g clipPath="url(#clip0_13_24853)">
@@ -19,10 +20,95 @@ const GlowingStar = () => (
 
 export default function Latihan() {
   const router = useRouter();
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   const handleLanjut = () => {
-    alert("Melanjutkan latihan..."); // navigation mockup
+    setShowQuiz(true);
   };
+
+  const handleOptionClick = (option: string) => {
+    setSelectedOption(option);
+    if (option === 'A') {
+      setIsCorrect(true);
+    } else {
+      setIsCorrect(false);
+    }
+  };
+
+  const handleNext = () => {
+    setSelectedOption(null);
+    setIsCorrect(null);
+  };
+
+  if (showQuiz) {
+    return (
+      <div className={styles.container}>
+        <Head>
+          <title>Latihan Quiz - Arcana</title>
+        </Head>
+
+        <div className={styles.quizContainer}>
+          <div className={styles.quizHeader}>
+            <div className={styles.levelTextQuiz}>
+              <GlowingStar />
+              Level 1
+            </div>
+            <h1 className={styles.quizTitle}>Huruf & Bunyi Dasar</h1>
+            <div className={styles.tahapText}>Tahap 1</div>
+            <div className={styles.quizProgressTrack}>
+              <div className={styles.quizProgressFill} style={{ width: '30%' }}></div>
+            </div>
+          </div>
+
+          <div className={styles.latihanLabel}>Latihan</div>
+
+          <div className={styles.questionCard}>
+            <h2 className={styles.questionText}>Huruf vokal apakah aku?</h2>
+            <button className={styles.speakerBtn}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M15.54 8.46C16.4774 9.39764 17.004 10.6692 17.004 12C17.004 13.3308 16.4774 14.6024 15.54 15.54" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M19.07 4.93C20.9447 6.80528 21.9979 9.34836 21.9979 12C21.9979 14.6516 20.9447 17.1947 19.07 19.07" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Dengarkan bunyinya
+            </button>
+          </div>
+
+          <div className={styles.instructionText}>Pilih huruf yang kamu dengar</div>
+
+          <div className={styles.optionsGrid}>
+            {['A', 'I', 'U', 'E', 'O'].map((char) => (
+              <button
+                key={char}
+                className={`${styles.optionButton} ${selectedOption === char ? (char === 'A' ? styles.optionButtonSelected : styles.optionButtonWrong) : ''}`}
+                onClick={() => handleOptionClick(char)}
+              >
+                {char}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {isCorrect !== null && (
+          <div className={`${styles.feedbackBanner} ${!isCorrect ? styles.feedbackBannerWrong : ''}`}>
+            <div className={`${styles.feedbackHeader} ${!isCorrect ? styles.feedbackHeaderWrong : ''}`}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" fill="currentColor" />
+                <path d="M8 12L11 15L16 9" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              {isCorrect ? 'Benar' : 'Salah'}
+            </div>
+            <p className={styles.feedbackText}>{isCorrect ? 'Huruf vokal A' : 'Jawabanmu belum sesuai'}</p>
+            <button className={`${styles.nextButton} ${!isCorrect ? styles.nextButtonWrong : ''}`} onClick={handleNext}>
+              Berikutnya
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -30,9 +116,8 @@ export default function Latihan() {
         <title>Latihan - Arcana</title>
       </Head>
 
-      {/* otp purple section with status bar spacer */}
       <div className={styles.topSection}>
-        <div style={{ height: '30px' }}></div> {/* Status bar spacer */}
+        <div style={{ height: '30px' }}></div>
         <div className={styles.header}>
           <div className={styles.avatar}>
             <img src="/assets/duck.svg" alt="User Avatar" className={styles.avatarImg} />
@@ -47,7 +132,6 @@ export default function Latihan() {
         </div>
       </div>
 
-      {/* bottom white section card */}
       <div className={styles.bottomSection}>
         <div className={styles.progressCard}>
           <h2 className={styles.progressTitle}>Progress latihanmu</h2>
