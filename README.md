@@ -1,4 +1,23 @@
-# LEKSA: Platform Deteksi & Pembelajaran Adaptif Disleksia Berbasis SOTA AI
+# `leksa`
+
+![Banner GitHub](banner/banner-github.png)
+
+**Platform Deteksi Dini Disleksia dengan Sistem Pembelajaran Adaptif**
+
+---
+
+## Team
+
+| **Name**                    | **Role**                                 |
+|-----------------------------|------------------------------------------|
+| Nauval Yusriya Athallah | Lead, Hacker  |
+| Nabiel Muhamad Irfani      | Hustler                      |
+| Muhammad Karov Ardava Barus               | Hacker                           |
+| Casta Garneta              | Hipster                           |
+| Thoriq Abdurrohman Taqy              | Hacker                           |
+
+---
+
 
 ## 1. Masalah: "The Identification Vacuum" di Indonesia
 Di Indonesia, diperkirakan terdapat lebih dari **5 juta anak dengan disleksia**, namun **90% di antaranya tidak terdiagnosis** secara resmi. Hambatan utama meliputi biaya diagnosis psikolog yang mahal dan minimnya tenaga ahli di daerah. **LEKSA** hadir untuk mendemokrasi akses deteksi dini melalui infrastruktur teknologi yang inklusif.
@@ -19,7 +38,6 @@ Kami menggunakan arsitektur monorepo yang dioptimasi untuk performa laptop *high
 | **OCR Engine** | **TrOCR (Vision-Transformer)** | Model AI SOTA (Microsoft/trocr-base) untuk pengenalan tulisan tangan. |
 | **Fuzzy Engine** | **RapidFuzz** | Algoritma *string matching* untuk toleransi kesalahan tulis ringan. |
 | **Database** | **SQLite (Local DB)** | Penyimpanan sesi lokal dengan latensi rendah. |
-| **Styling** | **Vanilla CSS & Modules** | Desain kustom premium dengan pendekatan *Glassmorphism*. |
 
 ## 4. Fitur Utama
 
@@ -36,11 +54,8 @@ Antarmuka "Dengarkan-Lalu-Tulis" yang intuitif dengan *feedback* visual untuk me
 *   **Risk Score Analysis:** Memberikan skor risiko 0-100 berdasarkan akurasi visi komputer.
 *   **Error Pattern Recognition:** Mendeteksi pola *reversal* (huruf terbalik seperti b/d, p/q) secara otomatis menggunakan AI.
 *   **Learning Roadmaps:** Merekomendasikan Level latihan **LEKSA** (1-5) yang harus diikuti anak berdasarkan hasil skrining.
-### D. Sahabat LEKSA (AI Tutor Lokal)
-* **Empathetic Interaction:** Chatbot yang didukung Ollama dengan *system prompt* khusus untuk memberikan motivasi dan perbaikan ejaan secara lembut tanpa menghakimi.
-* **Local Inference:** Proses berpikir AI dilakukan sepenuhnya di perangkat (mesin ROG Zephyrus), menjamin privasi 100%.
 
-### E. Mode Belajar Adaptif (Learning Mode)
+### D. Mode Belajar Adaptif (Learning Mode)
 * **Orton-Gillingham Curriculum:** Latihan berlevel (1-5) mulai dari pengenalan huruf konfusable (b/d, p/q) hingga morfologi kata.
 * **Dynamic Feedback:** Sistem memberikan *feedback* langsung berdasarkan benar/salahnya jawaban anak dan menyesuaikan level secara otomatis.
 
