@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import styles from '../styles/Latihan.module.css';
@@ -22,11 +22,65 @@ export default function Latihan() {
   const router = useRouter();
   const [view, setView] = useState<'landing' | 'learning' | 'quiz'>('landing');
   const [stage, setStage] = useState(1);
+  const [stage3View, setStage3View] = useState<'learning' | 'camera' | 'analyzing' | 'result'>('learning');
+  const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleLanjut = () => {
     setView('learning');
+  };
+
+  const startCamera = async () => {
+    setStage3View('camera');
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' }
+      });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+      return stream;
+    } catch (err) {
+      console.error("Camera error:", err);
+    }
+  };
+
+  useEffect(() => {
+    let activeStream: MediaStream | undefined;
+
+    if (view === 'quiz' && stage === 3 && (stage3View === 'learning' || stage3View === 'camera')) {
+      startCamera().then(stream => {
+        activeStream = stream;
+      });
+    }
+
+    return () => {
+      if (activeStream) {
+        activeStream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, [view, stage]);
+
+  const handleCapture = () => {
+    if (!videoRef.current) return;
+    
+    setStage3View('analyzing');
+    
+    const canvas = document.createElement('canvas');
+    canvas.width = videoRef.current.videoWidth;
+    canvas.height = videoRef.current.videoHeight;
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      ctx.drawImage(videoRef.current, 0, 0);
+      setCapturedImage(canvas.toDataURL('image/jpeg'));
+    }
+
+    // Simulasi analisis
+    setTimeout(() => {
+      setStage3View('result');
+    }, 2000);
   };
 
   const handleStartQuiz = () => {
@@ -49,10 +103,26 @@ export default function Latihan() {
       setView('learning');
       setSelectedOption(null);
       setIsCorrect(null);
-    } else {
-      // Reset or continue
+    } else if (stage === 2 && isCorrect) {
+      setStage(3);
+      setView('learning');
       setSelectedOption(null);
       setIsCorrect(null);
+    } else if (stage === 3) {
+      // Handle completion or next level
+      router.push('/result');
+    } else {
+      setSelectedOption(null);
+      setIsCorrect(null);
+    }
+  };
+
+  const handleBack = () => {
+    if (stage > 1) {
+      setStage(stage - 1);
+      setView('learning');
+    } else {
+      setView('landing');
     }
   };
 
@@ -64,29 +134,58 @@ export default function Latihan() {
         </Head>
 
         <div className={styles.quizContainer}>
-          <div className={styles.quizHeader}>
-            <div className={styles.levelTextQuiz}>
-              <GlowingStar />
-              Level 1
+          {stage === 3 ? (
+            <div className={styles.stage3Header}>
+              <button className={styles.backButton} onClick={handleBack}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15 18L9 12L15 6" stroke="#333333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              <div className={styles.stage3HeaderText}>
+                <div className={styles.levelTextQuiz}><GlowingStar /> Level 1</div>
+                <h1 className={styles.quizTitle}>Huruf & Bunyi Dasar</h1>
+              </div>
             </div>
-            <h1 className={styles.quizTitle}>Huruf & Bunyi Dasar</h1>
-            <div className={styles.tahapText}>Tahap {stage}</div>
-            <div className={styles.quizProgressTrack}>
-              <div className={styles.quizProgressFill} style={{ width: stage === 1 ? '30%' : '50%' }}></div>
+          ) : (
+            <div className={styles.quizHeader}>
+              <div className={styles.levelTextQuiz}>
+                <GlowingStar />
+                Level 1
+              </div>
+              <h1 className={styles.quizTitle}>Huruf & Bunyi Dasar</h1>
+              <div className={styles.tahapText}>Tahap {stage}</div>
+              <div className={styles.quizProgressTrack}>
+                <div className={styles.quizProgressFill} style={{ width: stage === 1 ? '30%' : '50%' }}></div>
+              </div>
             </div>
+          )}
+
+          {stage === 3 && (
+            <div className={styles.instructionSection}>
+              <img src="/assets/duck.svg" alt="Duck Mascot" className={styles.mascotIcon} />
+              <h2 className={styles.instructionTitle}>Dengarkan lalu tulis dalam kertas</h2>
+            </div>
+          )}
+
+          <div className={styles.learningLabel}>
+            {stage === 1 ? 'Huruf Vokal' : stage === 2 ? 'Huruf Mirip' : ''}
           </div>
 
-          <div className={styles.learningLabel}>{stage === 1 ? 'Huruf Vokal' : 'Huruf Mirip'}</div>
-
           <div className={styles.learningCard}>
-            <div className={styles.arrowCircle}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9 18L15 12L9 6" stroke="#333333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
+            {stage !== 3 && (
+              <div className={styles.arrowCircle}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9 18L15 12L9 6" stroke="#333333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+            )}
 
-            <h2 className={styles.bigLetter}>{stage === 1 ? 'Aa' : 'Bb'}</h2>
-            <p className={styles.subText}>{stage === 1 ? 'seperti bunyi “ayam”' : 'seperti bunyi “bola”'}</p>
+            {stage !== 3 ? (
+              <>
+                <h2 className={styles.bigLetter}>{stage === 1 ? 'Aa' : 'Bb'}</h2>
+                <p className={styles.subText}>{stage === 1 ? 'seperti bunyi “ayam”' : 'seperti bunyi “bola”'}</p>
+              </>
+            ) : null}
 
             <button className={styles.speakerBtn}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -98,9 +197,11 @@ export default function Latihan() {
             </button>
           </div>
 
+          {stage === 3 && <p className={styles.hearInstruction}>Tekan tombol untuk mendengar!</p>}
+
           <div className={styles.learningFooter}>
             <button className={styles.nextButtonPurple} onClick={handleStartQuiz}>
-              Berikutnya
+              {stage === 3 ? 'Lanjutkan' : 'Berikutnya'}
             </button>
           </div>
         </div>
@@ -116,50 +217,109 @@ export default function Latihan() {
         </Head>
 
         <div className={styles.quizContainer}>
-          <div className={styles.quizHeader}>
-            <div className={styles.levelTextQuiz}>
-              <GlowingStar />
-              Level 1
-            </div>
-            <h1 className={styles.quizTitle}>Huruf & Bunyi Dasar</h1>
-            <div className={styles.tahapText}>Tahap {stage}</div>
-            <div className={styles.quizProgressTrack}>
-              <div className={styles.quizProgressFill} style={{ width: stage === 1 ? '60%' : '80%' }}></div>
-            </div>
-          </div>
+          {stage === 3 ? (
+            <>
+              <div className={styles.stage3Header}>
+                <button className={styles.backButton} onClick={() => setView('learning')}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18L9 12L15 6" stroke="#333333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+                <div className={styles.stage3HeaderText}>
+                  <div className={styles.levelTextQuiz}><GlowingStar /> Level 1</div>
+                  <h1 className={styles.quizTitle}>Huruf & Bunyi Dasar</h1>
+                </div>
+              </div>
 
-          <div className={styles.latihanLabel}>Latihan</div>
+              {stage3View === 'camera' || stage3View === 'analyzing' ? (
+                <div className={styles.cameraViewfinder}>
+                  <video ref={videoRef} autoPlay playsInline className={styles.cameraVideo} />
+                  
+                  {stage3View === 'analyzing' && (
+                    <div className={styles.loadingOverlay}>
+                      <div className={styles.spinner}></div>
+                      <span>Sedang melihat tulisanmu ...</span>
+                    </div>
+                  )}
 
-          <div className={styles.questionCard}>
-            <h2 className={styles.questionText}>
-              {stage === 1 ? 'Huruf vokal apakah aku?' : 'Huruf apakah aku?'}
-            </h2>
-            <button className={styles.speakerBtn}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M15.54 8.46C16.4774 9.39764 17.004 10.6692 17.004 12C17.004 13.3308 16.4774 14.6024 15.54 15.54" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M19.07 4.93C20.9447 6.80528 21.9979 9.34836 21.9979 12C21.9979 14.6516 20.9447 17.1947 19.07 19.07" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              Dengarkan bunyinya
-            </button>
-          </div>
+                  <button className={styles.ambilFotoBtn} onClick={handleCapture} disabled={stage3View === 'analyzing'}>
+                    Ambil foto
+                  </button>
+                </div>
+              ) : (
+                <div className={styles.resultView}>
+                  <div className={styles.resultImageContainer}>
+                    {capturedImage ? (
+                      <img src={capturedImage} alt="Captured" className={styles.resultImage} />
+                    ) : (
+                      <div className={styles.resultImage} style={{ background: '#ddd' }}></div>
+                    )}
+                    <div className={styles.resultOverlay}>M</div>
+                  </div>
 
-          <div className={styles.instructionText}>Pilih huruf yang kamu dengar</div>
+                  <div className={styles.feedbackSection}>
+                    <img src="/assets/duck.svg" alt="Mascot" className={styles.mascotIcon} />
+                    <div className={styles.speechBubble}>
+                      <p className={styles.speechText}>Hebat! Kamu menulis huruf dengan benar. Teruskan ya!</p>
+                    </div>
+                  </div>
 
-          <div className={styles.optionsGrid}>
-            {(stage === 1 ? ['A', 'I', 'U', 'E', 'O'] : ['B', 'D', 'P', 'Q']).map((char) => (
-              <button
-                key={char}
-                className={`${styles.optionButton} ${selectedOption === char ? (char === (stage === 1 ? 'A' : 'B') ? styles.optionButtonSelected : styles.optionButtonWrong) : ''}`}
-                onClick={() => handleOptionClick(char)}
-              >
-                {char}
-              </button>
-            ))}
-          </div>
+                  <div className={styles.learningFooter}>
+                    <button className={styles.nextButtonPurple} onClick={() => router.push('/result')}>
+                      Berikutnya
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <div className={styles.quizHeader}>
+                <div className={styles.levelTextQuiz}>
+                  <GlowingStar />
+                  Level 1
+                </div>
+                <h1 className={styles.quizTitle}>Huruf & Bunyi Dasar</h1>
+                <div className={styles.tahapText}>Tahap {stage}</div>
+                <div className={styles.quizProgressTrack}>
+                  <div className={styles.quizProgressFill} style={{ width: stage === 1 ? '60%' : '80%' }}></div>
+                </div>
+              </div>
+
+              <div className={styles.latihanLabel}>Latihan</div>
+
+              <div className={styles.questionCard}>
+                <h2 className={styles.questionText}>
+                  {stage === 1 ? 'Huruf vokal apakah aku?' : 'Huruf apakah aku?'}
+                </h2>
+                <button className={styles.speakerBtn}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M15.54 8.46C16.4774 9.39764 17.004 10.6692 17.004 12C17.004 13.3308 16.4774 14.6024 15.54 15.54" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M19.07 4.93C20.9447 6.80528 21.9979 9.34836 21.9979 12C21.9979 14.6516 20.9447 17.1947 19.07 19.07" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  Dengarkan bunyinya
+                </button>
+              </div>
+
+              <div className={styles.instructionText}>Pilih huruf yang kamu dengar</div>
+
+              <div className={styles.optionsGrid}>
+                {(stage === 1 ? ['A', 'I', 'U', 'E', 'O'] : ['B', 'D', 'P', 'Q']).map((char) => (
+                  <button
+                    key={char}
+                    className={`${styles.optionButton} ${selectedOption === char ? (char === (stage === 1 ? 'A' : 'B') ? styles.optionButtonSelected : styles.optionButtonWrong) : ''}`}
+                    onClick={() => handleOptionClick(char)}
+                  >
+                    {char}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
         </div>
 
-        {isCorrect !== null && (
+        {isCorrect !== null && stage !== 3 && (
           <div className={`${styles.feedbackBanner} ${!isCorrect ? styles.feedbackBannerWrong : ''}`}>
             <div className={`${styles.feedbackHeader} ${!isCorrect ? styles.feedbackHeaderWrong : ''}`}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

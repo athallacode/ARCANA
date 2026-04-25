@@ -505,6 +505,190 @@
   padding-bottom: 40px;
 }
 
+.backButton {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1.5px solid #E2E4E9;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.stage3Header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.stage3HeaderText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.instructionSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.mascotIcon {
+  width: 48px;
+  height: 48px;
+}
+
+.instructionTitle {
+  font-size: 24px;
+  font-weight: 800;
+  color: #7D57C1;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.hearInstruction {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 800;
+  color: #333333;
+  margin-top: 12px;
+}
+
+/* Camera View */
+.cameraViewfinder {
+  flex: 1;
+  background: #232323;
+  border-radius: 24px;
+  margin: 20px 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 40px;
+  overflow: hidden;
+}
+
+.ambilFotoBtn {
+  background: #7D57C1;
+  border: none;
+  color: #ffffff;
+  padding: 12px 40px;
+  border-radius: 14px;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #5E3FA3;
+}
+
+/* Result Step 3 Styles */
+.resultImageContainer {
+  width: 100%;
+  height: 240px;
+  background: #f0f0f0;
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 30px;
+  border: 1px solid #E2E4E9;
+}
+
+.resultImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.8);
+}
+
+.resultOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+  font-size: 64px;
+  font-weight: 800;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.feedbackSection {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.speechBubble {
+  background: #ffffff;
+  border: 1.5px solid #E2E4E9;
+  border-radius: 20px;
+  padding: 16px 20px;
+  position: relative;
+  flex: 1;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.speechBubble::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 20px;
+  width: 20px;
+  height: 20px;
+  background: #ffffff;
+  border-left: 1.5px solid #E2E4E9;
+  border-bottom: 1.5px solid #E2E4E9;
+  transform: rotate(45deg);
+}
+
+.speechText {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #333333;
+  line-height: 1.4;
+}
+
+.cameraVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(125, 87, 193, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  gap: 16px;
+  z-index: 10;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 .nextButtonPurple {
   background: #7D57C1;
   border: none;

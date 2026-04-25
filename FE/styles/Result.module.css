@@ -1,96 +1,187 @@
 .container {
+  max-width: 480px;
+  margin: 0 auto;
   min-height: 100vh;
+  background-color: #ffffff;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  background: #FFFDFE;
-  padding: 0;
-  position: relative;
+  font-family: 'Inter', sans-serif;
 }
 
 .header {
-  width: 100%;
-  padding: 60px 24px 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.backButton {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1.5px solid #E2E4E9;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 .headerTitle {
-  font-size: 1.1rem;
-  font-weight: bold;
+  font-size: 24px;
+  font-weight: 800;
   color: #333333;
   margin: 0;
 }
 
-.content {
-  flex: 1;
+.section {
+  margin-bottom: 32px;
+}
+
+.sectionTitle {
+  font-size: 22px;
+  font-weight: 800;
+  color: #333333;
+  margin-bottom: 16px;
+}
+
+/* Summary List */
+.summaryList {
   display: flex;
   flex-direction: column;
+  gap: 16px;
+}
+
+.summaryItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summaryLabel {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333333;
+}
+
+.summaryValue {
+  font-size: 14px;
+  font-weight: 700;
+  color: #7D57C1;
+}
+
+/* Detail Cards */
+.detailCards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detailCard {
+  border: 1.5px solid #E2E4E9;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.statusIcon {
+  width: 24px;
+  height: 24px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 24px;
-  gap: 40px;
-  margin-top: -40px;
 }
 
-.scoreContainer {
-  background: #fdf2ff;
-  padding: 8px 16px;
-  border-radius: 100px;
+.cardContent {
+  display: flex;
+  flex-direction: column;
 }
 
-.scoreText {
-  font-size: 1.1rem;
-  font-weight: bold;
+.word {
+  font-size: 18px;
+  font-weight: 800;
   color: #333333;
+}
+
+.subWord {
+  font-size: 14px;
+  color: #888888;
+  font-weight: 500;
+}
+
+/* Indication Box */
+.indicationBox {
+  background: #ffffff;
+  border: 1.5px solid #E2E4E9;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.indicationText {
+  font-size: 14px;
+  color: #333333;
+  line-height: 1.6;
+  font-weight: 500;
   margin: 0;
 }
 
-.illustration {
-  width: 180px;
-  height: auto;
+/* Recommendation List */
+.recommendationList {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.star {
-  width: 100%;
-  height: auto;
+.recommendationCard {
+  border: 1.5px solid #E2E4E9;
+  border-radius: 16px;
+  padding: 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #333333;
+  line-height: 1.4;
 }
 
-.messageContainer {
-  text-align: center;
+/* Disclaimer Box */
+.disclaimerBox {
+  background: #F8F5FF;
+  border: 1.5px solid #7D57C1;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 40px;
 }
 
-.message {
-  color: #7D57C1;
-  font-size: 1.6rem;
-  font-weight: bold;
-  line-height: 1.3;
+.disclaimerText {
+  font-size: 13px;
+  color: #000000;
+  line-height: 1.5;
+  font-weight: 600;
   margin: 0;
 }
 
+/* Footer */
 .footer {
-  width: 100%;
-  padding: 24px;
-  display: flex;
-  justify-content: center;
-  padding-bottom: 60px;
+  margin-top: auto;
+  padding-bottom: 20px;
 }
 
-.button {
+.closeButton {
   width: 100%;
-  max-width: 400px;
   background: #7D57C1;
+  border: none;
   color: #ffffff;
-  font-size: 1.3rem;
-  font-weight: bold;
-  border: 2px solid #643EA8;
-  border-radius: 12px;
-  padding: 18px 0;
-  box-shadow: 0 4px 0 #643EA8;
+  padding: 18px;
+  border-radius: 18px;
+  font-size: 18px;
+  font-weight: 800;
   cursor: pointer;
-  transition: transform 0.1s, box-shadow 0.1s;
+  box-shadow: 0 4px 0 #5E3FA3;
 }
 
-.button:active {
-  transform: translateY(3px);
-  box-shadow: 0 1px 0 #643EA8;
+.closeButton:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #5E3FA3;
 }
