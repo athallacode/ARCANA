@@ -21,6 +21,7 @@ const GlowingStar = () => (
 export default function Latihan() {
   const router = useRouter();
   const [view, setView] = useState<'landing' | 'learning' | 'quiz'>('landing');
+  const [stage, setStage] = useState(1);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
@@ -34,7 +35,8 @@ export default function Latihan() {
 
   const handleOptionClick = (option: string) => {
     setSelectedOption(option);
-    if (option === 'A') {
+    const correctAns = stage === 1 ? 'A' : 'B';
+    if (option === correctAns) {
       setIsCorrect(true);
     } else {
       setIsCorrect(false);
@@ -42,8 +44,16 @@ export default function Latihan() {
   };
 
   const handleNext = () => {
-    setSelectedOption(null);
-    setIsCorrect(null);
+    if (stage === 1 && isCorrect) {
+      setStage(2);
+      setView('learning');
+      setSelectedOption(null);
+      setIsCorrect(null);
+    } else {
+      // Reset or continue
+      setSelectedOption(null);
+      setIsCorrect(null);
+    }
   };
 
   if (view === 'learning') {
@@ -60,13 +70,13 @@ export default function Latihan() {
               Level 1
             </div>
             <h1 className={styles.quizTitle}>Huruf & Bunyi Dasar</h1>
-            <div className={styles.tahapText}>Tahap 1</div>
+            <div className={styles.tahapText}>Tahap {stage}</div>
             <div className={styles.quizProgressTrack}>
-              <div className={styles.quizProgressFill} style={{ width: '30%' }}></div>
+              <div className={styles.quizProgressFill} style={{ width: stage === 1 ? '30%' : '50%' }}></div>
             </div>
           </div>
 
-          <div className={styles.learningLabel}>Huruf Vokal</div>
+          <div className={styles.learningLabel}>{stage === 1 ? 'Huruf Vokal' : 'Huruf Mirip'}</div>
 
           <div className={styles.learningCard}>
             <div className={styles.arrowCircle}>
@@ -75,8 +85,8 @@ export default function Latihan() {
               </svg>
             </div>
 
-            <h2 className={styles.bigLetter}>Aa</h2>
-            <p className={styles.subText}>seperti bunyi “ayam”</p>
+            <h2 className={styles.bigLetter}>{stage === 1 ? 'Aa' : 'Bb'}</h2>
+            <p className={styles.subText}>{stage === 1 ? 'seperti bunyi “ayam”' : 'seperti bunyi “bola”'}</p>
 
             <button className={styles.speakerBtn}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -112,16 +122,18 @@ export default function Latihan() {
               Level 1
             </div>
             <h1 className={styles.quizTitle}>Huruf & Bunyi Dasar</h1>
-            <div className={styles.tahapText}>Tahap 1</div>
+            <div className={styles.tahapText}>Tahap {stage}</div>
             <div className={styles.quizProgressTrack}>
-              <div className={styles.quizProgressFill} style={{ width: '60%' }}></div>
+              <div className={styles.quizProgressFill} style={{ width: stage === 1 ? '60%' : '80%' }}></div>
             </div>
           </div>
 
           <div className={styles.latihanLabel}>Latihan</div>
 
           <div className={styles.questionCard}>
-            <h2 className={styles.questionText}>Huruf vokal apakah aku?</h2>
+            <h2 className={styles.questionText}>
+              {stage === 1 ? 'Huruf vokal apakah aku?' : 'Huruf apakah aku?'}
+            </h2>
             <button className={styles.speakerBtn}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -135,10 +147,10 @@ export default function Latihan() {
           <div className={styles.instructionText}>Pilih huruf yang kamu dengar</div>
 
           <div className={styles.optionsGrid}>
-            {['A', 'I', 'U', 'E', 'O'].map((char) => (
+            {(stage === 1 ? ['A', 'I', 'U', 'E', 'O'] : ['B', 'D', 'P', 'Q']).map((char) => (
               <button
                 key={char}
-                className={`${styles.optionButton} ${selectedOption === char ? (char === 'A' ? styles.optionButtonSelected : styles.optionButtonWrong) : ''}`}
+                className={`${styles.optionButton} ${selectedOption === char ? (char === (stage === 1 ? 'A' : 'B') ? styles.optionButtonSelected : styles.optionButtonWrong) : ''}`}
                 onClick={() => handleOptionClick(char)}
               >
                 {char}
@@ -156,7 +168,13 @@ export default function Latihan() {
               </svg>
               {isCorrect ? 'Benar' : 'Salah'}
             </div>
-            <p className={styles.feedbackText}>{isCorrect ? 'Huruf vokal A' : 'Jawabanmu belum sesuai'}</p>
+            <p className={styles.feedbackText}>
+              {isCorrect
+                ? stage === 1
+                  ? 'Huruf vokal A'
+                  : 'Huruf B ada pada kata "bola"'
+                : 'Jawabanmu belum sesuai'}
+            </p>
             <button className={`${styles.nextButton} ${!isCorrect ? styles.nextButtonWrong : ''}`} onClick={handleNext}>
               Berikutnya
             </button>
