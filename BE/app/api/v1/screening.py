@@ -1,68 +1,53 @@
 """
-Screening API Router.
-Alur baru: Gambar → OpenCV Preprocessing → LLaVA Vision (Ollama Local) → Skor Disleksia.
+Screening API Router — ARCANA SOTA Engine.
+Logika: 5-Level Adaptive Pedagogy.
 """
 
 import base64
 import re
-
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from app.schemas.screening_schema import ScreeningRequest, ScreeningResponse
 from app.core.database import get_db
-from app.services.image_processor import preprocess_handwriting
-from app.services.llava_service import analyze_handwriting_llava
+from app.services.trocr_service import analyze_with_trocr
 
 router = APIRouter()
 
 @router.post("/upload", response_model=ScreeningResponse)
 async def analyze_handwriting(payload: ScreeningRequest, db: Session = Depends(get_db)):
     """
-    Pipeline Deteksi Disleksia Generasi 2.
-    
-    Alur (Flow):
-    1. Decode gambar Base64 dari Frontend.
-    2. PRE-PROCESSING (OpenCV): Bersihkan noise, threshold adaptif.
-    3. AI VISION (LLaVA / Ollama): Analisis pola tulisan tangan secara multimodal.
-    4. Kalkulasi skor risiko disleksia & tentukan level belajar.
+    Analisis dengan Mesin TrOCR (Transformer OCR).
+    Deteksi tulisan tangan level kata dengan Fuzzy Matching.
     """
     try:
-        if not payload.image_base64 or len(payload.image_base64) < 50:
-            raise HTTPException(status_code=400, detail="Gambar tidak valid atau kosong.")
+        if not payload.image_base64:
+            raise HTTPException(status_code=400, detail="Data gambar tidak terdeteksi.")
 
-        # Step 1: Decode base64 → raw bytes
+        # Bersihkan header data:image/jpeg;base64
         b64_data = re.sub(r'^data:image/.+;base64,', '', payload.image_base64)
         raw_bytes = base64.b64decode(b64_data)
-        print(f"[Screening] Gambar diterima: {len(raw_bytes)/1024:.1f} KB | Target: '{payload.target_letter}'")
-
-        # Step 2: OpenCV Preprocessing — Hapus noise, tajamkan tinta tulisan
-        print("[Preprocessing] Menjalankan OTSU Thresholding via OpenCV...")
-        clean_bytes = preprocess_handwriting(raw_bytes)
-        print(f"[Preprocessing] Selesai. Ukuran setelah diproses: {len(clean_bytes)/1024:.1f} KB")
-
-        # Step 3: LLaVA Vision — Kirim ke Ollama (100% Lokal, Offline)
-        print("[LLaVA] Mengirim ke model Vision LLaVA via Ollama...")
-        analysis_result = await analyze_handwriting_llava(clean_bytes, target_letter=payload.target_letter)
         
-        dynamic_score = analysis_result["score"]
-        detected_errors = analysis_result["errors"]
-        engine_used = analysis_result.get("engine", "unknown")
-        print(f"[LLaVA] Skor: {dynamic_score:.1f} | Engine: {engine_used} | Errors: {len(detected_errors)}")
+        # Eksekusi AI (Mesin Utama)
+        result = await analyze_with_trocr(raw_bytes, payload.target_letter)
+        
+        dynamic_score = result["score"]
+        errors = result["errors"]
+        engine = result.get("engine", "trocr")
+        debug = result.get("debug", {})
 
-        # Step 4: Kalkulasi Level Disleksia
-        if dynamic_score > 70:
-            label = "Tinggi"
-            level = 1
-            msg = "Disarankan untuk menjadwalkan konsultasi dengan ahli. Kami merekomendasikan mulai dari Level 1 untuk memperkuat fondasi fonemik."
+        print(f"[Engine] {engine.upper()} | Target: {payload.target_letter} | Skor: {dynamic_score}")
+
+        # Klasifikasi Diagnostik & Rekomendasi Level
+        if dynamic_score >= 80:
+            label, level = "Tinggi", 1
+            msg = f"Hasil menunjukkan risiko disleksia tinggi pada penulisan '{payload.target_letter}'. Mari mulai fondasi dari Level 1."
         elif dynamic_score >= 40:
-            label = "Sedang"
-            level = 2
-            msg = "Terdapat beberapa pola indikasi disleksia. Mari asah kemampuan di Level 2."
+            label, level = "Sedang", 2
+            msg = f"Terdapat pola disleksia moderat. Kami merekomendasikan Level 2 untuk penguatan suku kata."
         else:
-            label = "Rendah"
-            level = 3
-            msg = "Perkembangan sangat baik! Lanjutkan petualangan membaca di Level 3."
-            detected_errors = []
+            label, level = "Rendah", 3
+            msg = f"Sangat bagus! Anak sudah mampu menguasai '{payload.target_letter}' dengan stabil. Lanjutkan ke Level 3."
+            errors = []
 
         return ScreeningResponse(
             status="success",
@@ -70,11 +55,9 @@ async def analyze_handwriting(payload: ScreeningRequest, db: Session = Depends(g
             risk_level=label,
             recommended_level=level,
             feedback=msg,
-            detected_errors=detected_errors
+            detected_errors=errors
         )
 
-    except HTTPException:
-        raise
     except Exception as e:
-        print(f"[Screening] FATAL ERROR: {e}")
-        raise HTTPException(status_code=500, detail=f"Terjadi kesalahan saat pemrosesan: {str(e)}")
+        print(f"[API ERROR] {str(e)}")
+        raise HTTPException(status_code=500, detail="Gagal menganalisis tulisan.")
