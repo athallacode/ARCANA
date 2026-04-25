@@ -1,4 +1,4 @@
-# DyslexiAI: Platform Deteksi & Pembelajaran Adaptif Disleksia Berbasis AI
+# LEKSA: Platform Deteksi & Pembelajaran Adaptif Disleksia Berbasis AI
 ## 1. Masalah: "The Identification Vacuum" di Indonesia
 Di Indonesia, diperkirakan terdapat lebih dari **5 juta anak dengan disleksia**, namun **90% di antaranya tidak terdiagnosis** secara resmi hingga mereka lulus Sekolah Dasar. Hal ini menciptakan tiga beban utama:
 * **Cognitive Tax:** Anak menghabiskan 80% energi hanya untuk mengeja, menyisakan sedikit kapasitas untuk memahami konteks.
@@ -6,7 +6,7 @@ Di Indonesia, diperkirakan terdapat lebih dari **5 juta anak dengan disleksia**,
 * **Akses Terbatas:** Biaya diagnosis formal ke psikolog yang mahal dan kurangnya tenaga ahli di daerah pelosok.
 
 ## 2. Solusi: Infrastruktur Deteksi & Intervensi Dini
-DyslexiAI hadir sebagai solusi *web-based* yang anonim dan privat untuk menjembatani jurang diagnosis tersebut melalui:
+LEKSA hadir sebagai solusi *web-based* yang anonim dan privat untuk menjembatani jurang diagnosis tersebut melalui:
 * **Early Detection:** Screening non-invasif berbasis AI yang bisa diakses siapa saja secara instan tanpa perlu registrasi rumit.
 * **Privacy-First AI:** Menggunakan **Ollama (Local LLM)** yang berjalan di mesin pengguna, memastikan data percakapan dan tulisan anak tidak pernah keluar ke server publik.
 * **Evidence-Based:** Kurikulum latihan yang mengikuti prinsip **Orton-Gillingham**, metode yang terbukti secara klinis efektif untuk penyandang disleksia.
@@ -25,7 +25,7 @@ Kami menggunakan kombinasi teknologi modern yang menjamin performa tinggi dan ke
 | :--- | :--- | :--- |
 | **Frontend** | **Next.js** | Antarmuka web responsif dengan performa tinggi. |
 | **Backend** | **FastAPI** | REST API asinkron untuk orkestrasi AI dan Data. |
-| **Local AI** | **Ollama** | Mesin LLM lokal untuk AI Tutor (Sahabat DyslexiAI). |
+| **Local AI** | **Ollama** | Mesin LLM lokal untuk AI Tutor (Sahabat LEKSA). |
 | **ML Models** | **ONNX & PaddleOCR** | Klasifikasi pola tulisan tangan secara *lightweight*. |
 | **Database** | **PostgreSQL** | Penyimpanan sesi latihan dan bank soal kurikulum. |
 | **Language** | **Python 3.12+** | Logika inti AI dan Backend. |
@@ -36,7 +36,7 @@ Kami menggunakan kombinasi teknologi modern yang menjamin performa tinggi dan ke
 * **Handwriting Analysis:** Menggunakan kanvas digital untuk menangkap tulisan tangan anak. Gambar diproses oleh **PaddleOCR** untuk ekstraksi teks dan **ONNX** untuk mendeteksi pola *error* (seperti huruf terbalik atau omisi).
 * **AI Scoring:** Memberikan skor risiko (0-100) dan label (Rendah/Sedang/Tinggi) secara instan.
 
-### B. Sahabat DyslexiAI (AI Tutor Lokal)
+### B. Sahabat LEKSA (AI Tutor Lokal)
 * **Empathetic Interaction:** Chatbot yang didukung Ollama dengan *system prompt* khusus untuk memberikan motivasi dan perbaikan ejaan secara lembut tanpa menghakimi.
 * **Local Inference:** Proses berpikir AI dilakukan sepenuhnya di perangkat (mesin ROG Zephyrus), menjamin privasi 100%.
 
