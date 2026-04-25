@@ -15,6 +15,7 @@ class ScreeningRequest(BaseModel):
     """
     child_id: Optional[str] = None  # Bisa None jika ini sesi coba-coba (belum login)
     image_base64: str               # String gambar dari canvas (contoh: "data:image/png;base64,iVBORw0KG...")
+    target_letter: str = "A"        # Target huruf (contoh: "A", "I", "U", "E", "O")
 
 # ==========================================
 # [CATATAN UNTUK FE]: FORMAT RESPONSE
@@ -25,6 +26,7 @@ class ScreeningResponse(BaseModel):
     """
     status: str
     risk_score: float        # Skor 0 - 100
-    risk_label: str          # "Rendah", "Sedang", atau "Tinggi"
+    risk_level: str          # "Rendah", "Sedang", atau "Tinggi"
     recommended_level: int   # Rekomendasi level belajar (1-5)
-    feedback_message: str    # Pesan ramah/saran untuk orang tua
+    feedback: str            # Pesan ramah/saran untuk orang tua
+    detected_errors: list[str] = [] # Daftar pola kesalahan visual yang ditemukan

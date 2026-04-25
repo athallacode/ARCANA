@@ -2,12 +2,35 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import styles from '../styles/Result.module.css';
 
+interface DyslexiaResult {
+  risk_score: number;
+  risk_level: 'Rendah' | 'Sedang' | 'Tinggi';
+  detected_errors: string[];
+  feedback: string;
+}
+
 export default function Result() {
   const router = useRouter();
+  const [result, setResult] = useState<DyslexiaResult | null>(null);
 
-  const handleClose = () => {
-    router.push('/latihan');
-  };
+  useEffect(() => {
+    // Ambil data hasil kalkulasi ML dari session storage
+    const storageData = sessionStorage.getItem('dyslexia_result');
+    if (storageData) {
+      setResult(JSON.parse(storageData));
+    } else {
+      // Jika tidak ada data, kembalikan ke halaman awal
+      router.push('/');
+    }
+  }, [router]);
+
+  if (!result) {
+    return (
+      <div className={styles.container} style={{ justifyContent: 'center' }}>
+        <h2 style={{ color: '#6F45BA' }}>Memuat Hasil...</h2>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -82,7 +105,6 @@ export default function Result() {
             Pola kesalahan konsisten dengan gejala disleksia fonologis dan visual, khususnya kesulitan membedakan huruf yang mirip secara spasial (b/d) dan mempertahankan urutan huruf dalam kata. Pola ini bukan karena kurang belajar atau tidak teliti, melainkan cara otak memproses simbol tertulis yang berbeda.
           </p>
         </div>
-      </div>
 
       <div className={styles.section}>
         <h2 className={styles.sectionTitle}>Rekomendasi Tindak Lanjut</h2>

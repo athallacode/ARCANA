@@ -1,0 +1,75 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    padding: 60px 20px 40px;
+    text-align: center;
+}
+
+.headline {
+    color: #333333;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-top: 40px;
+}
+
+.mascotContainer {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: bounce 2s infinite ease-in-out;
+}
+
+.duck {
+    width: 180px;
+    height: auto;
+    filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+.subheadline {
+    color: #7d57c1;
+    font-size: 1.4rem;
+    font-weight: 800;
+    line-height: 1.4;
+    margin-bottom: 40px;
+    padding: 0 10px;
+}
+
+.footer {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.button {
+    width: 100%;
+    max-width: 400px;
+    padding: 18px;
+    background-color: #7d57c1;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 0 #5c3b99;
+    transition: all 0.2s ease;
+}
+
+.button:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 0 #5c3b99;
+}
